@@ -9,7 +9,6 @@ import "./app.css";
 class App extends Component {
 
   render() {
-    const { user } = this.props;
     return (
       <div>
         <div className="container">

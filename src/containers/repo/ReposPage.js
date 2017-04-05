@@ -2,13 +2,18 @@ import React, { Component, PropTypes } from "react";
 import shallowCompare from "react-addons-shallow-compare";
 import { connect } from "react-redux";
 import classNames from "classnames";
+import SearchForm from './../../components/repo/SearchForm';
 
 import { AutoSizer, Table, Column } from "react-virtualized";
 
 import {
+  reposQuery,
+  reposSort,
+  setReposSearchTerms,
   invalidateReposPage,
   selectReposPage,
-  fetchTopReposIfNeeded
+  fetchReposNow,
+  fetchReposIfNeeded
 } from "../../actions/repos";
 
 import "react-virtualized/styles.css";
@@ -22,16 +27,17 @@ class ReposPage extends Component {
     this.handleRefreshClick = this.handleRefreshClick.bind(this);
     this.getNoRowsRenderer = this.getNoRowsRenderer.bind(this);
     this.getRowClassName = this.getRowClassName.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   componentDidMount() {
     const { dispatch, page } = this.props;
-    dispatch(fetchTopReposIfNeeded(page));
+    dispatch(fetchReposIfNeeded(page));
   }
 
   componentWillReceiveProps(nextProps) {
     const { dispatch, page } = nextProps;
-    dispatch(fetchTopReposIfNeeded(page));
+    dispatch(fetchReposIfNeeded(page));
   }
 
   shouldComponentUpdate(nextProps, nextState) {
@@ -77,6 +83,11 @@ class ReposPage extends Component {
     dispatch(invalidateReposPage(page));
   }
 
+  handleSubmit(e) {
+    const { query } = this.props;
+    console.log({query})
+  }
+
   ownerCellRenderer = (
     { cellData, cellDataKey, columnData, rowData, rowIndex }
   ) => (
@@ -102,7 +113,7 @@ class ReposPage extends Component {
   );
 
   render() {
-    const { page, error, repos, isFetching } = this.props;
+    const { page, query, error, repos, isFetching } = this.props;
     const prevStyles = classNames("page-item", { disabled: page <= 1 });
     const nextStyles = classNames("page-item", {
       disabled: repos.length === 0
@@ -110,7 +121,7 @@ class ReposPage extends Component {
 
     return (
       <div className="container">
-
+      <SearchForm mySubmit={this.handleSubmit} />
         <nav>
           <ul className="pagination pagination-sm">
             <li className={prevStyles}>
@@ -226,6 +237,8 @@ class ReposPage extends Component {
 
 ReposPage.propTypes = {
   page: PropTypes.number.isRequired,
+  query: PropTypes.string.isRequired,
+  sort: PropTypes.string.isRequired,
   repos: PropTypes.array.isRequired,
   isFetching: PropTypes.bool.isRequired,
   error: PropTypes.object,
@@ -235,11 +248,15 @@ ReposPage.propTypes = {
 };
 
 function mapStateToProps(state) {
-  const { selectedReposPage, reposByPage } = state;
+  const { selectedReposPage, reposByPage, reposQuery, reposSort } = state;
   const page = selectedReposPage || 1;
+  const query = reposQuery || "github";
+  const sort = reposSort || "best-match"
   if (!reposByPage[page]) {
     return {
       page,
+      query,
+      sort,
       error: null,
       isFetching: false,
       didInvalidate: false,
@@ -250,6 +267,8 @@ function mapStateToProps(state) {
 
   return {
     page,
+    query,
+    sort,
     error: reposByPage[page].error,
     isFetching: reposByPage[page].isFetching,
     didInvalidate: reposByPage[page].didInvalidate,

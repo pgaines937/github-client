@@ -38,3 +38,8 @@
   font-size: 1em;
   color: #bdbdbd;
 }
+.pagination {
+  float: right;
+  position:relative;
+  top:-25px;
+}

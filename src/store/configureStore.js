@@ -1,12 +1,16 @@
 import { createStore, applyMiddleware, combineReducers, compose } from "redux";
+import { reducer as formReducer } from 'redux-form'
 import thunkMiddleware from "redux-thunk";
 import createLogger from "redux-logger";
-import { selectedReposPage, reposByPage } from "../reducers/repos";
+import { selectedReposPage, reposByPage, reposQuery, reposSort } from "../reducers/repos";
 
 const logger = createLogger();
 const rootReducer = combineReducers({
+  reposQuery,
+  reposSort,
   selectedReposPage,
-  reposByPage
+  reposByPage,
+  form: formReducer
 });
 
 const initialState = {};

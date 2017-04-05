@@ -1,5 +1,5 @@
-import React, { Component, PropTypes } from "react";
-import { Link, IndexLink } from "react-router";
+import React, { Component } from "react";
+import { IndexLink } from "react-router";
 import "./header.css";
 
 export default class Header extends Component {
@@ -9,9 +9,6 @@ export default class Header extends Component {
   };
 
   render() {
-    const { user } = this.props;
-    const pathname = this.props.location.pathname;
-    const isReposPage = pathname.indexOf("repos") > -1;
 
     return <nav
     className="navbar navbar-toggleable-md navbar-inverse bg-inverse fixed-top">
@@ -32,7 +29,5 @@ export default class Header extends Component {
 }
 
 Header.propTypes = {
-  user: PropTypes.string,
-  handleLogout: PropTypes.func.isRequired,
   location: React.PropTypes.object
 };

@@ -1,11 +1,27 @@
 import { callApi } from "../utils/apiUtils";
 
+export const SET_REPOS_QUERY = "SET_REPOS_QUERY";
+export const SET_REPOS_SORT = "SET_REPOS_SORT";
 export const SELECT_REPOS_PAGE = "SELECT_REPOS_PAGE";
 export const INVALIDATE_REPOS_PAGE = "INVALIDATE_REPOS_PAGE";
 
 export const REPOS_REQUEST = "REPOS_REQUEST";
 export const REPOS_SUCCESS = "REPOS_SUCCESS";
 export const REPOS_FAILURE = "REPOS_FAILURE";
+
+export function reposQuery(query) {
+  return {
+    type: SET_REPOS_QUERY,
+    query
+  };
+}
+
+export function reposSort(sort) {
+  return {
+    type: SET_REPOS_SORT,
+    sort
+  };
+}
 
 export function selectReposPage(page) {
   return {
@@ -55,8 +71,8 @@ function reposFailure(page) {
 
 const API_ROOT = "https://api.github.com";
 
-function fetchTopRepos(page) {
-  const url = `${API_ROOT}/search/repositories?q=stars:>10000&order=desc&page=${page}`;
+function fetchRepos(page, query = "stars:>10000", sort = "stars", order = "desc") {
+  const url = `${API_ROOT}/search/repositories?q=${query}&sort=${sort}&order=${order}&page=${page}`;
   return callApi(
     url,
     null,
@@ -83,10 +99,23 @@ function shouldFetchRepos(state, page) {
   return repos.didInvalidate;
 }
 
-export function fetchTopReposIfNeeded(page) {
+export function fetchReposIfNeeded(page, query, sort, order) {
   return (dispatch, getState) => {
     if (shouldFetchRepos(getState(), page)) {
-      return dispatch(fetchTopRepos(page));
+      return dispatch(fetchRepos(page, query, sort, order));
     }
   };
+}
+
+export function fetchReposNow(page, query, sort) {
+  return (dispatch) => {
+      return dispatch(fetchRepos(page, query, sort));
+  };
+}
+
+export function setReposSearchTerms(query, sort) {
+  return (dispatch) => {
+    reposQuery(query)
+    reposSort(sort)
+  }
 }

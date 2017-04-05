@@ -1,10 +1,30 @@
 import {
+  SET_REPOS_QUERY,
+  SET_REPOS_SORT,
   SELECT_REPOS_PAGE,
   INVALIDATE_REPOS_PAGE,
   REPOS_REQUEST,
   REPOS_SUCCESS,
   REPOS_FAILURE
 } from "../actions/repos";
+
+export function reposQuery(state = "", action) {
+  switch (action.type) {
+    case SET_REPOS_QUERY:
+      return action.query;
+    default:
+      return state;
+  }
+}
+
+export function reposSort(state = "", action) {
+  switch (action.type) {
+    case SET_REPOS_SORT:
+      return action.sort;
+    default:
+      return state;
+  }
+}
 
 export function selectedReposPage(state = 1, action) {
   switch (action.type) {
