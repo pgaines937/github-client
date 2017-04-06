@@ -2,30 +2,33 @@ import React, { Component, PropTypes } from "react";
 import { Field, reduxForm, formValueSelector } from 'redux-form'
 import { connect } from 'react-redux'
 
+import "./search.css";
+
 import {
   reposQuery,
+  reposSort,
   fetchReposNow,
 } from "../../actions/repos";
-
-import "./search.css";
 
 class SearchForm extends Component {
   constructor(props) {
     super(props);
-
+    this.onClickButton = this.onClickButton.bind(this);
   }
-  static propTypes = {
-    handleSubmit: PropTypes.func,
-    fields: PropTypes.array
+
+  onClickButton(query, sort) {
+    const { dispatch, page } = this.props;
+    dispatch(reposQuery(query))
+    dispatch(reposSort(sort))
+    dispatch(fetchReposNow(page, query, sort))
   }
 
   render() {
-    const { fields: {searchQuery, sort}, handleSubmit } = this.props;
+    const { handleSubmit, query = "", sort = "" } = this.props;
     return (
-      <form onSubmit={handleSubmit(handleSubmit)}>
+      <form onSubmit={handleSubmit}>
         <div className="input-group">
-          <label htmlFor="search"></label>
-          <Field placeholder="Search GitHub" name="searchQuery" component="input" type="text"/>
+          <Field name="query" placeholder="Search GitHub" component="input" type="text" />
           <Field name="sort" component="select">
             <option>Sort by... </option>
             <option value="best-match">Best match</option>
@@ -38,6 +41,7 @@ class SearchForm extends Component {
           </Field>
           <button type="submit"><i className="fa fa-search"></i></button>
         </div>
+         {query}, {sort}
       </form>
     );
   }
@@ -46,16 +50,16 @@ class SearchForm extends Component {
 // Decorate the form component
 SearchForm = reduxForm({
   form: 'search', // a unique name for this form
-  fields: ['searchQuery', 'sort']
 })(SearchForm);
 
 // Decorate with connect to read form values
-const selector = formValueSelector('search') // <-- same as form name
+export const selector = formValueSelector('search') // <-- same as form name
 SearchForm = connect(
   state => {
-    const { searchQuery, sort } = selector(state, 'searchQuery', 'sort')
+    const query = selector(state, 'query')
+    const sort = selector(state, 'sort')
     return {
-      searchQuery,
+      query,
       sort
     }
   }

@@ -9,10 +9,10 @@ import { AutoSizer, Table, Column } from "react-virtualized";
 import {
   reposQuery,
   reposSort,
-  setReposSearchTerms,
   invalidateReposPage,
   selectReposPage,
   fetchReposNow,
+  setReposSearchTerms,
   fetchReposIfNeeded
 } from "../../actions/repos";
 
@@ -36,8 +36,8 @@ class ReposPage extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    const { dispatch, page } = nextProps;
-    dispatch(fetchReposIfNeeded(page));
+    const { dispatch, page, query, sort } = nextProps;
+    dispatch(fetchReposIfNeeded(page, query, sort));
   }
 
   shouldComponentUpdate(nextProps, nextState) {
@@ -83,11 +83,6 @@ class ReposPage extends Component {
     dispatch(invalidateReposPage(page));
   }
 
-  handleSubmit(e) {
-    const { query } = this.props;
-    console.log({query})
-  }
-
   ownerCellRenderer = (
     { cellData, cellDataKey, columnData, rowData, rowIndex }
   ) => (
@@ -112,8 +107,16 @@ class ReposPage extends Component {
     </span>
   );
 
+  handleSubmit(e) {
+    const { dispatch, page, query, sort } = this.props;
+    console.log(e.query)
+    dispatch(reposQuery(e.query))
+    dispatch(reposSort(e.sort))
+    dispatch(setReposSearchTerms(page, query, sort))
+  }
+
   render() {
-    const { page, query, error, repos, isFetching } = this.props;
+    const { page, error, repos, isFetching } = this.props;
     const prevStyles = classNames("page-item", { disabled: page <= 1 });
     const nextStyles = classNames("page-item", {
       disabled: repos.length === 0
@@ -121,7 +124,7 @@ class ReposPage extends Component {
 
     return (
       <div className="container">
-      <SearchForm mySubmit={this.handleSubmit} />
+      <SearchForm onSubmit={this.handleSubmit} />
         <nav>
           <ul className="pagination pagination-sm">
             <li className={prevStyles}>
@@ -237,6 +240,7 @@ class ReposPage extends Component {
 
 ReposPage.propTypes = {
   page: PropTypes.number.isRequired,
+  form: PropTypes.object,
   query: PropTypes.string.isRequired,
   sort: PropTypes.string.isRequired,
   repos: PropTypes.array.isRequired,
@@ -247,14 +251,15 @@ ReposPage.propTypes = {
   top: PropTypes.number
 };
 
-function mapStateToProps(state) {
-  const { selectedReposPage, reposByPage, reposQuery, reposSort } = state;
+function mapStateToProps(state, props) {
+  const { selectedReposPage, reposByPage, reposQuery, reposSort, form } = state;
   const page = selectedReposPage || 1;
   const query = reposQuery || "github";
-  const sort = reposSort || "best-match"
+  const sort = reposSort || "stars"
   if (!reposByPage[page]) {
     return {
       page,
+      form,
       query,
       sort,
       error: null,
@@ -267,6 +272,7 @@ function mapStateToProps(state) {
 
   return {
     page,
+    form,
     query,
     sort,
     error: reposByPage[page].error,

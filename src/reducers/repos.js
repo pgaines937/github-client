@@ -1,6 +1,7 @@
 import {
   SET_REPOS_QUERY,
   SET_REPOS_SORT,
+  SET_REPOS_ORDER,
   SELECT_REPOS_PAGE,
   INVALIDATE_REPOS_PAGE,
   REPOS_REQUEST,
@@ -21,6 +22,15 @@ export function reposSort(state = "", action) {
   switch (action.type) {
     case SET_REPOS_SORT:
       return action.sort;
+    default:
+      return state;
+  }
+}
+
+export function reposOrder(state = "", action) {
+  switch (action.type) {
+    case SET_REPOS_ORDER:
+      return action.order;
     default:
       return state;
   }

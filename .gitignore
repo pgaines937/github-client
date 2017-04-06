@@ -10,9 +10,9 @@ build
 .DS_Store
 npm-debug.log
 
+.idea/
 # vscode stuff
 *.d.ts
 .vscode/
 typings.json
 jsconfig.json
-

@@ -2,6 +2,7 @@ import { callApi } from "../utils/apiUtils";
 
 export const SET_REPOS_QUERY = "SET_REPOS_QUERY";
 export const SET_REPOS_SORT = "SET_REPOS_SORT";
+export const SET_REPOS_ORDER = "SET_REPOS_ORDER";
 export const SELECT_REPOS_PAGE = "SELECT_REPOS_PAGE";
 export const INVALIDATE_REPOS_PAGE = "INVALIDATE_REPOS_PAGE";
 
@@ -20,6 +21,13 @@ export function reposSort(sort) {
   return {
     type: SET_REPOS_SORT,
     sort
+  };
+}
+
+export function reposOrder(order) {
+  return {
+    type: SET_REPOS_ORDER,
+    order
   };
 }
 
@@ -99,10 +107,10 @@ function shouldFetchRepos(state, page) {
   return repos.didInvalidate;
 }
 
-export function fetchReposIfNeeded(page, query, sort, order) {
+export function fetchReposIfNeeded(page, query, sort) {
   return (dispatch, getState) => {
     if (shouldFetchRepos(getState(), page)) {
-      return dispatch(fetchRepos(page, query, sort, order));
+      return dispatch(fetchRepos(page, query, sort));
     }
   };
 }
@@ -113,9 +121,31 @@ export function fetchReposNow(page, query, sort) {
   };
 }
 
-export function setReposSearchTerms(query, sort) {
+export function setReposSearchTerms(query = "stars:>10000", sort, order = "desc") {
   return (dispatch) => {
+    let sortOut = "stars";
+    let orderOut = "desc";
+    if (sort === "most-stars") {
+      sortOut = "stars";
+      orderOut = "desc";
+    } else if (sort === "fewest-stars") {
+      sortOut = "stars";
+      orderOut = "asc";
+    } else if (sort === "most-forks") {
+      sortOut = "forks";
+      orderOut = "desc";
+    } else if (sort === "fewest-forks") {
+      sortOut = "forks";
+      orderOut = "asc";
+    } else if (sort === "recently-updated") {
+      sortOut = "updated";
+      orderOut = "desc";
+    } else if (sort === "least-recently-updated") {
+      sortOut = "updated";
+      orderOut = "asc";
+    }
     reposQuery(query)
-    reposSort(sort)
+    reposSort(sortOut)
+    reposOrder(orderOut)
   }
 }
