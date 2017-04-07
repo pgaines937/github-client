@@ -15,7 +15,7 @@ This application demonstrates asynchronous data fetching, caching and pagination
 Scroll down to find out how to [run the application](#getting-started) yourself.
 Here's a screenshot:
 
-![alt text](https://raw.githubusercontent.com/cloudmu/react-redux-starter-kit/master/screenshot.png "Screenshot")
+![alt text](https://raw.githubusercontent.com/pgaines937/github-client/master/screenshot.png "Screenshot")
 
 ## Technologies used:
 
