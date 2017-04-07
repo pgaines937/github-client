@@ -275,7 +275,7 @@ ReposPage.propTypes = {
 function mapStateToProps(state, props) {
   const { selectedReposPage, reposByPage, reposQuery, reposSort, reposOrder, form } = state;
   const page = selectedReposPage || 1;
-  const query = reposQuery || "github";
+  const query = reposQuery || "stars:>10000";
   const sort = reposSort || "stars";
   const order = reposOrder || "desc";
   if (!reposByPage[page]) {
