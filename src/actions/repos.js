@@ -1,53 +1,44 @@
 import { callApi } from "../utils/apiUtils";
-
-export const SET_REPOS_QUERY = "SET_REPOS_QUERY";
-export const SET_REPOS_SORT = "SET_REPOS_SORT";
-export const SET_REPOS_ORDER = "SET_REPOS_ORDER";
-export const SELECT_REPOS_PAGE = "SELECT_REPOS_PAGE";
-export const INVALIDATE_REPOS_PAGE = "INVALIDATE_REPOS_PAGE";
-
-export const REPOS_REQUEST = "REPOS_REQUEST";
-export const REPOS_SUCCESS = "REPOS_SUCCESS";
-export const REPOS_FAILURE = "REPOS_FAILURE";
+import * as actionTypes from "../constants/actionTypes"
 
 export function reposQuery(query) {
   return {
-    type: SET_REPOS_QUERY,
+    type: actionTypes.SET_REPOS_QUERY,
     query
   };
 }
 
 export function reposSort(sort) {
   return {
-    type: SET_REPOS_SORT,
+    type: actionTypes.SET_REPOS_SORT,
     sort
   };
 }
 
 export function reposOrder(order) {
   return {
-    type: SET_REPOS_ORDER,
+    type: actionTypes.SET_REPOS_ORDER,
     order
   };
 }
 
 export function selectReposPage(page) {
   return {
-    type: SELECT_REPOS_PAGE,
+    type: actionTypes.SELECT_REPOS_PAGE,
     page
   };
 }
 
 export function invalidateReposPage(page) {
   return {
-    type: INVALIDATE_REPOS_PAGE,
+    type: actionTypes.INVALIDATE_REPOS_PAGE,
     page
   };
 }
 
 function reposRequest(page) {
   return {
-    type: REPOS_REQUEST,
+    type: actionTypes.REPOS_REQUEST,
     page
   };
 }
@@ -57,7 +48,7 @@ function reposRequest(page) {
 function reposSuccess(page) {
   return function(payload) {
     return {
-      type: REPOS_SUCCESS,
+      type: actionTypes.REPOS_SUCCESS,
       page,
       repos: payload.items,
       totalCount: payload.total_count
@@ -70,7 +61,7 @@ function reposSuccess(page) {
 function reposFailure(page) {
   return function(error) {
     return {
-      type: REPOS_FAILURE,
+      type: actionTypes.REPOS_FAILURE,
       page,
       error
     };
