@@ -1,6 +1,6 @@
-appId: io.pgaines937.github-browser
+appId: io.pgaines937.github-client
 copyright: pgaines937 (MIT License)
-productName: GitHub Browser
+productName: GitHub Client
 
 asar: true
 

@@ -2,6 +2,7 @@
   "name": "github-client",
   "version": "1.0.0",
   "description": "A GitHub Client that uses Electron, React, and Redux, and allows the user to search for a repository",
+  "main": "init.js",
   "repository": {
     "type": "git",
     "url": "https://github.com/pgaines937/github-client.git"
@@ -81,9 +82,8 @@
     "redux-thunk": "^2.2.0",
     "socket.io-client": "^1.7.2"
   },
-  "homepage": "./",
-  "main": "src/electron-starter.js",
   "scripts": {
+    "electron-dev": "set ELECTRON_START_URL=http://localhost:3000 && electron .",
     "postinstall": "install-app-deps",
     "develop": "npm run react-build && run-p -r private:watch private:serve",
     "test": "jest --verbose",
@@ -92,7 +92,6 @@
     "react-test": "react-scripts test --env=jsdom",
     "react-build": "react-scripts build",
     "react-eject": "react-scripts eject",
-    "electron-dev": "set ELECTRON_START_URL=http://localhost:3000 && electron .",
     "lint": "eslint --no-ignore scripts src test *.js",
     "pack": "run-s private:clean private:compile private:build:all",
     "pack:mac": "run-s private:clean private:compile private:build:mac",
