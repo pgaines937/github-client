@@ -35,7 +35,7 @@ Here's a screenshot:
 
 #### Best React Practice - [Separating "smart" and "dumb" components](https://medium.com/@dan_abramov/smart-and-dumb-components-7ca2f9a7c7d0)
 
-This design pattern makes even more sense when using React along with Redux, where top-level smart components (a.k.a. containers in this codebase such as `UsersPage` and `ReposPage`) subscribe to Redux state and dispatch Redux actions, while low level components (such as `User`, `Repo`, and `Header`) read data and invoke callbacks passed in as props.
+This design pattern makes even more sense when using React along with Redux, where top-level smart components (a.k.a. containers in this codebase such as `ReposPage`) subscribe to Redux state and dispatch Redux actions, while low level components (such as `SearchForm`, `Repo`, and `Header`) read data and invoke callbacks passed in as props.
 
 #### Async Data Fetching with Caching and Pagination
 
@@ -51,7 +51,8 @@ You can test this by disabling your internet connection. Or even better, you can
 The application would fail gracefully with the error message if data fetching (for a particular page) fails. However, the application can still show cached data for other pages, which is very desirable behavior.
 
 ## Getting Started
-Thanks to [create-react-app](https://github.com/facebookincubator/create-react-app), we will have a configuration-free dev experience.
+Thanks to [create-react-app](https://github.com/facebookincubator/create-react-app), we would  have a configuration-free dev experience.
+However, we are also using Electron to package and deploy the application, which does require some configuration (most of which is already done at this point).
 
 To get started, please clone this git repository and then run `npm install` once under the project top-level directory.
 
