@@ -67,7 +67,7 @@ This will install the dependencies for the client side.
 ## While You're Developing...
 Whenever you want to run/test the program, `cd` to the project top-level directory. Use these commands:
 
-### `npm run react-start`
+### `npm start`
 
 Runs the app in the development mode, using the Webpack-provided "development server".<br>
 Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
