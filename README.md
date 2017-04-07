@@ -59,7 +59,7 @@ To get started, please clone this git repository and then run `npm install` once
 
 ```
 git clone https://github.com/pgaines937/github-client
-cd react-redux-starter-kit
+cd github-client
 npm install
 ```
 This will install the dependencies for the client side.
