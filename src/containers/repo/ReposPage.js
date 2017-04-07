@@ -144,7 +144,7 @@ class ReposPage extends Component {
     });
 
     return (
-      <div className="container">
+      <div className="topnav">
       <SearchForm onSubmit={this.handleSubmit} />
         <nav>
           <ul className="pagination pagination-sm">
