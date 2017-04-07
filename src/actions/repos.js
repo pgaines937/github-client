@@ -79,7 +79,7 @@ function reposFailure(page) {
 
 const API_ROOT = "https://api.github.com";
 
-function fetchRepos(page, query = "stars:>10000", sort = "stars", order = "desc") {
+function fetchRepos(page, query = "stars:>10000", sort = "default", order = "desc") {
   const url = `${API_ROOT}/search/repositories?q=${query}&sort=${sort}&order=${order}&page=${page}`;
   return callApi(
     url,
@@ -107,45 +107,10 @@ function shouldFetchRepos(state, page) {
   return repos.didInvalidate;
 }
 
-export function fetchReposIfNeeded(page, query, sort) {
+export function fetchReposIfNeeded(page, query, sort, order) {
   return (dispatch, getState) => {
     if (shouldFetchRepos(getState(), page)) {
-      return dispatch(fetchRepos(page, query, sort));
+      return dispatch(fetchRepos(page, query, sort, order));
     }
   };
-}
-
-export function fetchReposNow(page, query, sort) {
-  return (dispatch) => {
-      return dispatch(fetchRepos(page, query, sort));
-  };
-}
-
-export function setReposSearchTerms(query = "stars:>10000", sort, order = "desc") {
-  return (dispatch) => {
-    let sortOut = "stars";
-    let orderOut = "desc";
-    if (sort === "most-stars") {
-      sortOut = "stars";
-      orderOut = "desc";
-    } else if (sort === "fewest-stars") {
-      sortOut = "stars";
-      orderOut = "asc";
-    } else if (sort === "most-forks") {
-      sortOut = "forks";
-      orderOut = "desc";
-    } else if (sort === "fewest-forks") {
-      sortOut = "forks";
-      orderOut = "asc";
-    } else if (sort === "recently-updated") {
-      sortOut = "updated";
-      orderOut = "desc";
-    } else if (sort === "least-recently-updated") {
-      sortOut = "updated";
-      orderOut = "asc";
-    }
-    reposQuery(query)
-    reposSort(sortOut)
-    reposOrder(orderOut)
-  }
 }

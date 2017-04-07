@@ -1,30 +1,13 @@
-import React, { Component, PropTypes } from "react";
+import React, { Component } from "react";
 import { Field, reduxForm, formValueSelector } from 'redux-form'
 import { connect } from 'react-redux'
 
 import "./search.css";
 
-import {
-  reposQuery,
-  reposSort,
-  fetchReposNow,
-} from "../../actions/repos";
-
 class SearchForm extends Component {
-  constructor(props) {
-    super(props);
-    this.onClickButton = this.onClickButton.bind(this);
-  }
-
-  onClickButton(query, sort) {
-    const { dispatch, page } = this.props;
-    dispatch(reposQuery(query))
-    dispatch(reposSort(sort))
-    dispatch(fetchReposNow(page, query, sort))
-  }
 
   render() {
-    const { handleSubmit, query = "", sort = "" } = this.props;
+    const { handleSubmit } = this.props;
     return (
       <form onSubmit={handleSubmit}>
         <div className="input-group">
@@ -41,7 +24,6 @@ class SearchForm extends Component {
           </Field>
           <button type="submit"><i className="fa fa-search"></i></button>
         </div>
-         {query}, {sort}
       </form>
     );
   }
@@ -58,9 +40,11 @@ SearchForm = connect(
   state => {
     const query = selector(state, 'query')
     const sort = selector(state, 'sort')
+    const order = selector(state, 'order')
     return {
       query,
-      sort
+      sort,
+      order
     }
   }
 )(SearchForm)

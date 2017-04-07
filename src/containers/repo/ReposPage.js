@@ -9,10 +9,9 @@ import { AutoSizer, Table, Column } from "react-virtualized";
 import {
   reposQuery,
   reposSort,
+  reposOrder,
   invalidateReposPage,
   selectReposPage,
-  fetchReposNow,
-  setReposSearchTerms,
   fetchReposIfNeeded
 } from "../../actions/repos";
 
@@ -31,13 +30,13 @@ class ReposPage extends Component {
   }
 
   componentDidMount() {
-    const { dispatch, page } = this.props;
-    dispatch(fetchReposIfNeeded(page));
+    const { dispatch, page, query, sort, order } = this.props;
+    dispatch(fetchReposIfNeeded(page, query, sort, order));
   }
 
   componentWillReceiveProps(nextProps) {
-    const { dispatch, page, query, sort } = nextProps;
-    dispatch(fetchReposIfNeeded(page, query, sort));
+    const { dispatch, page, query, sort, order } = nextProps;
+    dispatch(fetchReposIfNeeded(page, query, sort, order));
   }
 
   shouldComponentUpdate(nextProps, nextState) {
@@ -108,11 +107,33 @@ class ReposPage extends Component {
   );
 
   handleSubmit(e) {
-    const { dispatch, page, query, sort } = this.props;
-    console.log(e.query)
+    const { dispatch, page } = this.props;
+    let sortOut = "default";
+    let orderOut = "desc";
+    console.log(e.sort)
+    if (e.sort === "most-stars") {
+      sortOut = "stars";
+      orderOut = "desc";
+    } else if (e.sort === "fewest-stars") {
+      sortOut = "stars";
+      orderOut = "asc";
+    } else if (e.sort === "most-forks") {
+      sortOut = "forks";
+      orderOut = "desc";
+    } else if (e.sort === "fewest-forks") {
+      sortOut = "forks";
+      orderOut = "asc";
+    } else if (e.sort === "recently-updated") {
+      sortOut = "updated";
+      orderOut = "desc";
+    } else if (e.sort === "least-recently-updated") {
+      sortOut = "updated";
+      orderOut = "asc";
+    }
     dispatch(reposQuery(e.query))
-    dispatch(reposSort(e.sort))
-    dispatch(setReposSearchTerms(page, query, sort))
+    dispatch(reposSort(sortOut))
+    dispatch(reposOrder(orderOut))
+    dispatch(invalidateReposPage(page));
   }
 
   render() {
