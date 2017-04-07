@@ -28,8 +28,9 @@ Here's a screenshot:
 - [JSON Web Token](https://jwt.io/)
 - [create-react-app](https://github.com/facebookincubator/create-react-app/)
 - [Babel](http://babeljs.io/) and [Webpack](http://webpack.github.io/) (now behind the scenes thanks to create-react-app)
-* [Electron Packager](https://github.com/electron-userland/electron-packager)
-* [Electron DevTools Installer](https://github.com/MarshallOfSound/electron-devtools-installer)
+- [Electron](https://github.com/electron/electron)
+- [Electron Builder](https://github.com/electron-userland/electron-builder)
+- [Electron DevTools Installer](https://github.com/MarshallOfSound/electron-devtools-installer)
 
 ## Feature highlights:
 

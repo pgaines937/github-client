@@ -273,16 +273,18 @@ ReposPage.propTypes = {
 };
 
 function mapStateToProps(state, props) {
-  const { selectedReposPage, reposByPage, reposQuery, reposSort, form } = state;
+  const { selectedReposPage, reposByPage, reposQuery, reposSort, reposOrder, form } = state;
   const page = selectedReposPage || 1;
   const query = reposQuery || "github";
-  const sort = reposSort || "stars"
+  const sort = reposSort || "stars";
+  const order = reposOrder || "desc";
   if (!reposByPage[page]) {
     return {
       page,
       form,
       query,
       sort,
+      order,
       error: null,
       isFetching: false,
       didInvalidate: false,
@@ -296,6 +298,7 @@ function mapStateToProps(state, props) {
     form,
     query,
     sort,
+    order,
     error: reposByPage[page].error,
     isFetching: reposByPage[page].isFetching,
     didInvalidate: reposByPage[page].didInvalidate,
