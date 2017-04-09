@@ -2,14 +2,14 @@ import React, { Component, PropTypes } from "react";
 import shallowCompare from "react-addons-shallow-compare";
 import { connect } from "react-redux";
 import classNames from "classnames";
-import SearchForm from './../../components/repo/SearchForm';
+import SearchForm from '../../components/repo/SearchForm';
 
 import { AutoSizer, Table, Column } from "react-virtualized";
 
 import {
-  reposQuery,
-  reposSort,
-  reposOrder,
+  setReposQuery,
+  setReposSort,
+  setReposOrder,
   invalidateReposPage,
   selectReposPage,
   fetchReposIfNeeded
@@ -130,9 +130,9 @@ class ReposPage extends Component {
       sortOut = "updated";
       orderOut = "asc";
     }
-    dispatch(reposQuery(e.query))
-    dispatch(reposSort(sortOut))
-    dispatch(reposOrder(orderOut))
+    dispatch(setReposQuery(e.query))
+    dispatch(setReposSort(sortOut))
+    dispatch(setReposOrder(orderOut))
     dispatch(invalidateReposPage(page));
   }
 

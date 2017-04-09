@@ -52,8 +52,7 @@ You can test this by disabling your internet connection. Or even better, you can
 The application would fail gracefully with the error message if data fetching (for a particular page) fails. However, the application can still show cached data for other pages, which is very desirable behavior.
 
 ## Getting Started
-Thanks to [create-react-app](https://github.com/facebookincubator/create-react-app), we would  have a configuration-free dev experience.
-However, we are also using Electron to package and deploy the application, which does require some configuration (most of which is already done at this point).
+Thanks to [create-react-app](https://github.com/facebookincubator/create-react-app) and electron, we have a configuration-free dev experience.
 
 To get started, please clone this git repository and then run `npm install` once under the project top-level directory.
 
