@@ -1,23 +1,11 @@
 import { callApi } from "../utils/apiUtils";
 import * as actionTypes from "../constants/actionTypes"
 
-export function setReposQuery(query) {
+export function setReposParams(query, sort, order) {
   return {
-    type: actionTypes.SET_REPOS_QUERY,
-    query
-  };
-}
-
-export function setReposSort(sort) {
-  return {
-    type: actionTypes.SET_REPOS_SORT,
-    sort
-  };
-}
-
-export function setReposOrder(order) {
-  return {
-    type: actionTypes.SET_REPOS_ORDER,
+    type: actionTypes.SET_REPOS_PARAMS,
+    query,
+    sort,
     order
   };
 }

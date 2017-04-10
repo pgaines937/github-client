@@ -1,32 +1,5 @@
 import * as actionTypes from '../constants/actionTypes'
 
-export function reposQuery(state = "", action) {
-  switch (action.type) {
-    case actionTypes.SET_REPOS_QUERY:
-      return action.query;
-    default:
-      return state;
-  }
-}
-
-export function reposSort(state = "", action) {
-  switch (action.type) {
-    case actionTypes.SET_REPOS_SORT:
-      return action.sort;
-    default:
-      return state;
-  }
-}
-
-export function reposOrder(state = "", action) {
-  switch (action.type) {
-    case actionTypes.SET_REPOS_ORDER:
-      return action.order;
-    default:
-      return state;
-  }
-}
-
 export function selectedReposPage(state = 1, action) {
   switch (action.type) {
     case actionTypes.SELECT_REPOS_PAGE:
@@ -77,6 +50,12 @@ function repos(
 
 export function reposByPage(state = {}, action) {
   switch (action.type) {
+    case actionTypes.SET_REPOS_PARAMS:
+      return Object.assign({}, state, {
+        query: action.query,
+        sort: action.sort,
+        order: action.order
+      });
     case actionTypes.INVALIDATE_REPOS_PAGE:
     case actionTypes.REPOS_REQUEST:
     case actionTypes.REPOS_SUCCESS:

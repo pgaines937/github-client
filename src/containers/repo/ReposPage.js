@@ -7,9 +7,7 @@ import SearchForm from '../../components/repo/SearchForm';
 import { AutoSizer, Table, Column } from "react-virtualized";
 
 import {
-  setReposQuery,
-  setReposSort,
-  setReposOrder,
+  setReposParams,
   invalidateReposPage,
   selectReposPage,
   fetchReposIfNeeded
@@ -130,9 +128,7 @@ class ReposPage extends Component {
       sortOut = "updated";
       orderOut = "asc";
     }
-    dispatch(setReposQuery(e.query))
-    dispatch(setReposSort(sortOut))
-    dispatch(setReposOrder(orderOut))
+    dispatch(setReposParams(e.query, sortOut, orderOut));
     dispatch(invalidateReposPage(page));
   }
 
@@ -272,28 +268,15 @@ ReposPage.propTypes = {
   top: PropTypes.number
 };
 
-function mapStateToProps(state, props) {
-  const { selectedReposPage, reposByPage, reposQuery, reposSort, reposOrder, form } = state;
-  const page = selectedReposPage || 1;
-  const query = reposQuery || "stars:>10000";
-  const sort = reposSort || "stars";
-  const order = reposOrder || "desc";
-  if (!reposByPage[page]) {
-    return {
-      page,
-      form,
-      query,
-      sort,
-      order,
-      error: null,
-      isFetching: false,
-      didInvalidate: false,
-      totalCount: 0,
-      repos: []
-    };
-  }
-
-  return {
+const mapStateToProps = ({
+  selectedReposPage: page = 1,
+  reposByPage,
+  reposQuery: query = reposByPage.query || "stars:>10000",
+  reposSort: sort = reposByPage.sort || "stars",
+  reposOrder: order = reposByPage.order || "desc",
+  form
+}) => reposByPage[page]
+  ? {
     page,
     form,
     query,
@@ -304,7 +287,18 @@ function mapStateToProps(state, props) {
     didInvalidate: reposByPage[page].didInvalidate,
     totalCount: reposByPage[page].totalCount,
     repos: reposByPage[page].repos
+  }
+  : {
+    page,
+    form,
+    query,
+    sort,
+    order,
+    error: null,
+    isFetching: false,
+    didInvalidate: false,
+    totalCount: 0,
+    repos: []
   };
-}
 
 export default connect(mapStateToProps)(ReposPage);
